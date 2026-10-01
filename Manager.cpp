@@ -1,13 +1,14 @@
 //standard includes: 
-#include<iostream>
-#include<string>
-#include<cctype>
-#include<algorithm>
-#include<vector>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <algorithm>
+#include <vector>
 
 //.h includes: 
-#include"temp_cleaner.h"
-#include"command_parser.h"
+#include "temp_cleaner.h"
+#include "command_parser.h"
+#include "youtube_agent.h"
 
 //namespaces used: 
 using namespace std;
@@ -32,7 +33,12 @@ int main(){
     //call to command parser
     cmd_parser(user_command, task_target, filtered_command);
 
-    cout<<"Filtered_command is: "<<filtered_command<<'\n';
+
+    //1. Youtube automation- Call to Youtube_Command_Executer(string filtered_command, vector<string> task_target);
+    if(task_target[0] == "play" && task_target[1] == "youtube"){
+        Youtube_Command_Executer(filtered_command, task_target);
+    }
+
 
 
     
