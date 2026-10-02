@@ -59,8 +59,8 @@ void play_youtube_parsing(string& user_command , vector<string>& task_target , s
 
         //end - start+5 for getting total length of area to keep 
         //example start 5 and end 10 then 10-5 is keep rest 5 words between  
-        string song = user_command.substr(start+5, end - (start+5)); //starting, after how many char to stop 
-        filtered_cmd = song;
+        string to_be_searched = user_command.substr(start+5, end - (start+5)); //starting, after how many char to stop 
+        filtered_cmd = to_be_searched;
 
 
        }
