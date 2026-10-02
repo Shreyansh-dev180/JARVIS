@@ -16,9 +16,25 @@ void Browser_Detection_Module(string& user_primary_browser);
 void Youtube_Command_Executer(string filtered_command, vector<string> task_target){
     string user_primary_browser = "";
 
-    Browser_Detection_Module(user_primary_browser);
+    fs::path folder = "Jarvis_Data";
     
+    fs::path p = folder/"User_Main_Browser.txt";
 
+    //check if file not exists then call to detection module and extract data directly
+    if(!fs::exists(p)){
+        Browser_Detection_Module(user_primary_browser);
+    }
+
+    //Reading the Jarvis_Data/ User_Main_Browser.txt 
+    fstream browser_data_file(p);
+
+    if(browser_data_file.is_open()){
+        getline(browser_data_file, user_primary_browser);
+
+        browser_data_file.close();
+    }
+    
+    
 
 }
 
@@ -26,7 +42,9 @@ void Youtube_Command_Executer(string filtered_command, vector<string> task_targe
 
 
 
-void Browser_Detection_Module(string& user_primary_browser){
+void Browser_Detection_Module(){
+    string user_primary_browser = "";
+
     fs::path folder = "Jarvis_Data";
     
     fs::path p = folder/"User_Main_Browser.txt";
@@ -96,17 +114,6 @@ void Browser_Detection_Module(string& user_primary_browser){
             }
         }
 
-    }
-
-    //if both files exists
-    else{
-        ifstream file(p);
-
-        if(file.is_open()){
-            getline(file, user_primary_browser);
-
-            file.close();
-        }
     }
 
 }
