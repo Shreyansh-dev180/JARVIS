@@ -16,6 +16,9 @@ void Browser_Detection_Module(string& user_primary_browser);
 void Youtube_Command_Executer(string filtered_command, vector<string> task_target){
     string user_primary_browser = "";
 
+    Browser_Detection_Module(user_primary_browser);
+    
+
 
 }
 
