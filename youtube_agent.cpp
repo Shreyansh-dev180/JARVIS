@@ -65,16 +65,22 @@ void Youtube_Command_Executer(string filtered_command){
 
     string query = filtered_command;
 
-    replace(query.begin(),query.end() ," ", "+");
+    replace(query.begin(),query.end() ,' ', '+');
 
     string final_search_text = base_url + query;
     
     if(user_primary_browser.find("brave") != string::npos){
         system("winapp ui send-keys \"Ctrl+l\" -a brave");
 
+        //l is typed in search bar so delete it first
+        system("winapp ui send-keys \"Backspace\" -a brave");
+        system("winapp ui send-keys \"Backspace\" -a brave");
+
         string command = "winapp ui send-keys \"" + final_search_text + "\" -a brave";
 
         system(command.c_str()); //system expects a C format string thats why c_str;
+
+        system("winapp ui send-keys \"Enter\" -a brave");
         
         return;
 
