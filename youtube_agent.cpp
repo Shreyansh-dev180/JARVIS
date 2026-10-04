@@ -18,7 +18,7 @@ void Browser_Detection_Module();
 void Browser_Launch(string user_primary_browser);
 
 
-void Youtube_Command_Executer(string filtered_command, vector<string> task_target){
+void Youtube_Command_Executer(string filtered_command){
     string user_primary_browser = "";
 
     fs::path folder = "Jarvis_Data";

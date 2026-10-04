@@ -48,7 +48,7 @@ int main(){
 
         //1. Youtube automation- Call to Youtube_Command_Executer(string filtered_command, vector<string> task_target);
         if(task_target[0] == "play" && task_target[1] == "youtube"){
-            Youtube_Command_Executer(filtered_command, task_target);
+            Youtube_Command_Executer(filtered_command);
         }
     }
 
