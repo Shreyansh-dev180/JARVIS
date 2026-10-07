@@ -52,14 +52,6 @@ void Youtube_Command_Executer(string filtered_command){
 
     this_thread::sleep_for(chrono::seconds(5));
 
-    int is_browser_opened = system("winapp ui list-windows | findstr /i \"Brave\" > nul");
-
-    //if 0 then opened - continue else if 1 means still browser is not opened even after 5 sec
-
-    if(is_browser_opened != 0){
-        cout<<"[SIR]: Your Browser is Taking Too long to Launch\nPlease Try Again\n";
-        return;
-    }
 
     string base_url = "https://www.youtube.com/results?search_query=";
 
@@ -70,6 +62,18 @@ void Youtube_Command_Executer(string filtered_command){
     string final_search_text = base_url + query;
     
     if(user_primary_browser.find("brave") != string::npos){
+
+        int is_browser_opened = system("winapp ui list-windows | findstr /i \"Brave\" > nul");
+
+        //if 0 then opened - continue else if 1 means still browser is not opened even after 5 sec
+
+        if(is_browser_opened != 0){
+            cout<<"[SIR]: Your Browser is Taking Too long to Launch\n"
+                  "Please Try Again\n";
+            return;
+        }
+
+
         system("winapp ui send-keys \"Ctrl+l\" -a brave");
 
         //l is typed in search bar so delete it first
@@ -85,6 +89,104 @@ void Youtube_Command_Executer(string filtered_command){
         return;
 
     }
+
+    //if user_browser is chrome then-:
+    else if(user_primary_browser.find("chrome") != string::npos){
+
+        int is_browser_opened = system("winapp ui list-windows | findstr /i \"Chrome\" > nul");
+
+        //if 0 then opened - continue else if 1 means still browser is not opened even after 5 sec
+
+        if(is_browser_opened != 0){
+            cout<<"[SIR]: Your Browser is Taking Too long to Launch\n"
+                  "Please Try Again\n";
+            return;
+        }
+
+
+        system("winapp ui send-keys \"Ctrl+l\" -a chrome");
+
+        //l is typed in search bar so delete it first
+        system("winapp ui send-keys \"Backspace\" -a chrome");
+        system("winapp ui send-keys \"Backspace\" -a chrome");
+
+        string command = "winapp ui send-keys \"" + final_search_text + "\" -a chrome";
+
+        system(command.c_str()); //system expects a C format string thats why c_str;
+
+        system("winapp ui send-keys \"Enter\" -a chrome");
+        
+        return;
+
+    }
+
+    //if msedge
+    else if(user_primary_browser.find("msedge") != string::npos){
+
+        int is_browser_opened = system("winapp ui list-windows | findstr /i \"Edge\" > nul");
+
+        //if 0 then opened - continue else if 1 means still browser is not opened even after 5 sec
+
+        if(is_browser_opened != 0){
+            cout<<"[SIR]: Your Browser is Taking Too long to Launch\n"
+                  "Please Try Again\n";
+            return;
+        }
+
+
+        system("winapp ui send-keys \"Ctrl+l\" -a msedge");
+
+        //l is typed in search bar so delete it first
+        system("winapp ui send-keys \"Backspace\" -a msedge");
+        system("winapp ui send-keys \"Backspace\" -a msedge");
+
+        string command = "winapp ui send-keys \"" + final_search_text + "\" -a msedge";
+
+        system(command.c_str()); //system expects a C format string thats why c_str;
+
+        system("winapp ui send-keys \"Enter\" -a msedge");
+        
+        return;
+
+    }
+
+    //if firefox
+    else if(user_primary_browser.find("firefox") != string::npos){
+
+        int is_browser_opened = system("winapp ui list-windows | findstr /i \"Firefox\" > nul");
+
+        //if 0 then opened - continue else if 1 means still browser is not opened even after 5 sec
+
+        if(is_browser_opened != 0){
+            cout<<"[SIR]: Your Browser is Taking Too long to Launch\n"
+                  "Please Try Again\n";
+            return;
+        }
+
+
+        system("winapp ui send-keys \"Ctrl+l\" -a firefox");
+
+        //l is typed in search bar so delete it first
+        system("winapp ui send-keys \"Backspace\" -a firefox");
+        system("winapp ui send-keys \"Backspace\" -a firefox");
+
+        string command = "winapp ui send-keys \"" + final_search_text + "\" -a firefox";
+
+        system(command.c_str()); //system expects a C format string thats why c_str;
+
+        system("winapp ui send-keys \"Enter\" -a firefox");
+        
+        return;
+
+    }
+
+    else{
+        cout<<"[SIR]: Due to Configuration Issues Browser Automation Failed\n"
+              "You can try Checking That You Have Entered a Valid Browser Name\n";
+        return;
+    }
+
+    
     
     
 
