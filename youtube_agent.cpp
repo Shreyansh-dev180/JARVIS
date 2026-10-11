@@ -17,6 +17,9 @@ void Browser_Detection_Module();
 //2. Browser_Launch
 void Browser_Launch(string user_primary_browser);
 
+//3. Fallback_Module
+void Fallback_Module(fs::path User_Main_Browser_file_path);
+
 
 void Youtube_Command_Executer(string filtered_command){
     string user_primary_browser = "";
@@ -28,6 +31,13 @@ void Youtube_Command_Executer(string filtered_command){
     //check if file not exists then call to detection module and extract data directly
     if(!fs::exists(p)){
         Browser_Detection_Module();
+
+        /*if user entered empty response and detection module returned without 
+        creating the file then return from here if file still not exits      */
+
+        if(!fs::exists(p)){
+            return;
+        }
     }
 
     //checking if User_Main_Browser.txt is empty
@@ -182,17 +192,17 @@ void Youtube_Command_Executer(string filtered_command){
 
     else{
         cout<<"[SIR]: Due to Configuration Issues Browser Automation Failed\n"
-              "You can try Checking That You Have Entered a Valid Browser Name\n";
+              "You can try Checking whether You Have Entered a Valid Browser Name\n";
+        
+        //before returning Call to Fallback module for updating the txt file data
+        Fallback_Module(p);
+
         return;
     }
 
     
     
-    
-
-    
-    
-    
+  
 
 }
 
@@ -216,7 +226,8 @@ void Browser_Detection_Module(){
         <<"2.Chrome\n"
         <<"3.Edge\n"
         <<"4.Firefox\n"
-        <<"5.Your Choice: ";
+        <<"5.Other\n"
+        <<"6.Your Choice: ";
 
         getline(cin, user_response);
 
@@ -224,11 +235,21 @@ void Browser_Detection_Module(){
 
         if(user_response.empty()){
             cout<<"[SIR]: Please Enter a Valid Choice\n";
+            cout<<"[SIR]: Empty Commands are Invalid\n";
             return;
         }
 
         transform(user_response.begin(), user_response.end(),
                 user_response.begin(), ::tolower);
+
+        //check if user uses other browser out of the 4 ;
+        if(user_response.find("other") != string::npos){
+
+            cout<<"[SIR]: Jarvis Don't Support Any Other Browser\n";
+            cout<<"[SIR]: Sorry For The Inconvinience\n";
+            return;
+
+        }
 
         if(user_response.find("brave") != string::npos){
             user_primary_browser = "brave";
@@ -248,6 +269,12 @@ void Browser_Detection_Module(){
         else if(user_response.find("firefox") != string::npos){
             user_primary_browser = "firefox";
 
+        }
+
+        else {
+            cout<<"[SIR]: You Made an Invalid Choice\n"
+                  "Try Entering The Exact Browser Name Listed\n";
+            return;
         }
 
         //Saving the User Browser in Jarvis_Data/User_Main_Browser.txt;
@@ -290,5 +317,73 @@ void Browser_Launch(string user_primary_browser){
 
     else cout<<"[SIR]: Failed to Start appropriate Browser\n Please Try Again\n";
    
+
+}
+
+
+void Fallback_Module(fs::path User_Main_Browser_file_path){
+    fs::path file_path = User_Main_Browser_file_path;
+
+    string new_user_command = "";
+
+    string filtered_new_user_command = "";
+
+    //Asking for correct Browser Name;
+    cout<<"[SIR]: Enter The Name Of Your Primary Browser[One Time]\n"
+        <<"1.Brave\n"
+        <<"2.Chrome\n"
+        <<"3.Edge\n"
+        <<"4.Firefox\n"
+        <<"5.Other\n"
+        <<"6.Your Choice: ";
+
+    getline(cin, new_user_command);
+
+    if(new_user_command.empty()){
+        cout<<"[SIR]: Empty Commands Are Invalid\nTry Again\n"; 
+        return;
+    }
+
+    transform(new_user_command.begin(), new_user_command.end(),
+              new_user_command.begin(), ::tolower);
+
+    if(new_user_command.find("other") != string::npos){
+        cout<<"[SIR]: Jarvis Don't Support Any Other Browser\n";
+        cout<<"[SIR]: Sorry For The Inconvinience\n";
+        return;
+    }
+
+    if(new_user_command.find("brave") != string::npos) filtered_new_user_command = "brave";
+
+    else if(new_user_command.find("chrome") != string::npos) filtered_new_user_command = "chrome";
+
+    else if(new_user_command.find("edge") != string::npos) filtered_new_user_command = "msedge";
+
+    else if(new_user_command.find("firefox") != string::npos) filtered_new_user_command = "firefox";
+
+    else {
+        cout<<"[SIR]: You Made an Invalid Choice\n"
+               "Try Entering The Exact Browser Name Listed\n";
+        return;
+    }
+
+
+    if(!filtered_new_user_command.empty()){
+        ofstream file(file_path);
+
+        if(file.is_open()){
+            file<<filtered_new_user_command;
+            file.close();
+            cout<<"[SIR]: Your Old Incorrect Browser Name is Replaced with: "<<filtered_new_user_command<<'\n';
+            cout<<"[SIR]: Try Youtube Play Feature Once Again\n";
+            return;
+        }
+
+        else{
+            cout << "[SIR]: Failed to Update Browser Configuration\n";
+        }
+        
+    }
+
 
 }
