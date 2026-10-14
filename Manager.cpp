@@ -6,9 +6,9 @@
 #include <vector>
 
 //.h includes: 
-#include "temp_cleaner.h"
-#include "command_parser.h"
-#include "youtube_agent.h"
+#include "system_automation/temp_cleaner.h"
+#include "command_parser/command_parser.h"
+#include "browser_automation/youtube_agent.h"
 
 //namespaces used: 
 using namespace std;
@@ -49,6 +49,13 @@ int main(){
         //1. Youtube automation- Call to Youtube_Command_Executer(string filtered_command, vector<string> task_target);
         if(task_target[0] == "play" && task_target[1] == "youtube"){
             Youtube_Command_Executer(filtered_command);
+        }
+
+        //for command structure: clean temp 
+        //task = clean , target = temp files; filtered command not needed.
+
+        if(task_target[0] == "clean" && task_target[1] == "temp"){
+            temp_clean();
         }
 
 

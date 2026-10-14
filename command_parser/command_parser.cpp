@@ -21,6 +21,15 @@ void cmd_parser(string& user_command , vector<string>& task_target, string& filt
         play_youtube_parsing(user_command, task_target, filtered_cmd);
     }
 
+    else if(user_command.find("clean") != string::npos && user_command.find("temp") != string::npos){
+
+        //command structure : clean temp (any case);
+        //no need of filtered command because Task = clean target = temp files;
+        task_target.push_back("clean");
+        task_target.push_back("temp");
+
+    }
+
 
 
 }
