@@ -35,6 +35,7 @@ void Youtube_Command_Executer(string filtered_command){
         creating the file then return from here if file still not exits      */
 
         if(!fs::exists(p)){
+            cout<<"[SIR]: User_Main_Browser.txt not found\nTry Again\n";
             return;
         }
     }
@@ -54,6 +55,10 @@ void Youtube_Command_Executer(string filtered_command){
         getline(browser_data_file, user_primary_browser);
 
         browser_data_file.close();
+    }
+    else{
+        cout<<"Failed to Open user_main_browser.txt file\n";
+        return;
     }
 
     //starting the right Browser
