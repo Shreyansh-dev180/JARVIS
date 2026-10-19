@@ -1,0 +1,11 @@
+Prerequisites: 
+1. Install the winapp cli provided in jarvis/winapp cli directory.
+
+2. In your browser settings find on startup and turn off "continue where you left" and select "open new tab page" instead
+
+3. Command structure to give command to jarvis:
+
+a. play <your query to be search on youtube> on youtube. make sure the space between each word
+b. "clean temp" ,for cleaning temp files
+c. search <what to search> on google. make sure to write your query in between search and on google.
+
