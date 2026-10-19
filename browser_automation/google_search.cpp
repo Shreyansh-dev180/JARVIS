@@ -78,6 +78,12 @@ void Google_Search_Module(string& filtered_command){
 
         system(user_query.c_str()); //system expects a c style string so c_str();
 
+        //On pressing enter it search the auto suggested results so we do one space to 
+        //avoid searching auto suggested result and search what we have typed.
+
+        system("winapp ui send-keys \"Space\" -a brave");
+        system("winapp ui send-keys \"Space\" -a brave");
+
         system("winapp ui send-keys \"Enter\" -a brave");
 
         return;

@@ -9,6 +9,7 @@
 #include "system_automation/temp_cleaner.h"
 #include "command_parser/command_parser.h"
 #include "browser_automation/youtube_agent.h"
+#include "browser_automation/google_search.h"
 
 //namespaces used: 
 using namespace std;
@@ -51,11 +52,21 @@ int main(){
             Youtube_Command_Executer(filtered_command);
         }
 
+        //google search automation: call to 
+        else if(task_target[0] == "search" && task_target[1] == "google"){
+            Google_Search_Module(filtered_command);
+        }
+
         //for command structure: clean temp 
         //task = clean , target = temp files; filtered command not needed.
 
-        if(task_target[0] == "clean" && task_target[1] == "temp"){
+        else if(task_target[0] == "clean" && task_target[1] == "temp"){
             temp_clean();
+        }
+
+        else{
+            cout<<"[SIR]: Possibly due to Wrong Command Structure\nOr Empty Query\n";
+            cout<<"The Error Occured\nTry Again with Correct Command Structure and query\n";
         }
 
 
