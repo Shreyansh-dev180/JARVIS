@@ -7,9 +7,11 @@
 
 //local.h includes: 
 #include "system_automation/temp_cleaner.h"
+#include "system_automation/system_info.h"
 #include "command_parser/command_parser.h"
 #include "browser_automation/youtube_agent.h"
 #include "browser_automation/google_search.h"
+
 
 //namespaces used: 
 using namespace std;
@@ -62,6 +64,11 @@ int main(){
 
         else if(task_target[0] == "clean" && task_target[1] == "temp"){
             temp_clean();
+        }
+
+        else if (task_target[0] == "system" && task_target[1] == "info") {
+            Memory_info();
+            Cpu_info();
         }
 
         else{

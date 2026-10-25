@@ -12,6 +12,9 @@ void play_youtube_parsing(string& user_command , vector<string>& task_target , s
 //2. search_google_parsing
 void search_google_parsing(string user_command, vector<string>& task_target, string& filtered_command);
 
+//3. system_info_parsing
+void system_info_parsing(vector<string>& task_target);
+
 
 //MAIN FUNCTION 
 
@@ -36,7 +39,9 @@ void cmd_parser(string& user_command , vector<string>& task_target, string& filt
         search_google_parsing(user_command, task_target, filtered_cmd);
     }
 
-
+    else if (user_command.find("system") != string::npos && user_command.find("info") != string::npos) {
+        system_info_parsing(task_target);
+    }
 
 }
 
@@ -124,4 +129,12 @@ void search_google_parsing(string user_command, vector<string>& task_target, str
        start will be start + 7 
        same if we have end = 10 ranging from s to " " 
        so we also want to exclude that space so we subtract search length + 1 means end - start+7*/
+}
+
+
+void system_info_parsing(vector<string>& task_target) {
+    //finding words like system info is done in main function so 
+    
+    task_target.push_back("system");
+    task_target.push_back("info");
 }

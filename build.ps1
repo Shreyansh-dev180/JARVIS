@@ -7,6 +7,7 @@ $sources = @(
     "browser_modules/user_browser_launch.cpp"
     "command_parser/command_parser.cpp"
     "browser_automation/google_search.cpp"
+    "system_automation/system_info.cpp"
 )
 
 g++ -o jarvis $sources
