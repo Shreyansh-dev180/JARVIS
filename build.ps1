@@ -8,6 +8,8 @@ $sources = @(
     "command_parser/command_parser.cpp"
     "browser_automation/google_search.cpp"
     "system_automation/system_info.cpp"
+    "system_health_monitor/ram_health.cpp"
+    "system_health_monitor/monitor_manager.cpp"
 )
 
 g++ -o jarvis $sources
