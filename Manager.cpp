@@ -4,6 +4,7 @@
 #include <cctype>
 #include <algorithm>
 #include <vector>
+#include <thread>
 
 //local.h includes: 
 #include "system_automation/temp_cleaner.h"
@@ -11,6 +12,7 @@
 #include "command_parser/command_parser.h"
 #include "browser_automation/youtube_agent.h"
 #include "browser_automation/google_search.h"
+#include "system_health_monitor/monitor_manager.h"
 
 
 //namespaces used: 
@@ -23,6 +25,8 @@ void user_input(string &user_command){
 }
 
 int main(){
+    //create a thread obj whose lifetime is till main's lifetime
+    jthread system_health_monitor_thread;
 
     while(true){
         string user_command = "";
@@ -69,6 +73,45 @@ int main(){
         else if (task_target[0] == "system" && task_target[1] == "info") {
             Memory_info();
             Cpu_info();
+        }
+
+        else if (task_target[0] == "start" && task_target[1] == "system monitor") {
+            /*we check if the jthread obj is not joinable means 
+            it is not holding a working thread so our system health 
+            monitor is not running already so we can start safely else
+            cout that system health monitor is already running*/
+
+            if (!system_health_monitor_thread.joinable()) {
+                /*create a jthread and give its ownership to our
+                system_health_monitor_thread so that its lifetime
+                stay throughout the main program*/
+                //SHMT-> system_health_monitor_thread;
+                jthread temp_SHMT(system_health_monitor_manager);
+
+                //pass temp_SHMT ownership to SHMT thread
+                system_health_monitor_thread = move(temp_SHMT);
+
+                cout << "[SIR]: System Monitoring Has Been Started\n";
+            }
+            else {
+                cout << "[SIR]: System Monitoring is Already Running\n";
+            }
+
+        }
+
+        else if (task_target[0] == "stop" && task_target[1] == "system monitor") {
+            /*for stopping the system monitoring we check if it is 
+            joinable then it means system monitoring was running so
+            we need to stop it else cout system monitoring is not 
+            running*/
+            if (system_health_monitor_thread.joinable()) {
+                system_health_monitor_thread.request_stop();
+                system_health_monitor_thread.join();
+                cout << "[SIR]: System Monitor has been stopped\n";
+            }
+            else {
+                cout << "[SIR]: System Monitor is not Running\n";
+            }
         }
 
         else{

@@ -43,6 +43,23 @@ void cmd_parser(string& user_command , vector<string>& task_target, string& filt
         system_info_parsing(task_target);
     }
 
+    else if (user_command.find("start") != string::npos && user_command.find("system monitor") != string::npos) {
+        task_target.push_back("start");
+        task_target.push_back("system monitor");
+    }
+
+    else if (user_command.find("stop") != string::npos && user_command.find("system monitor") != string::npos) {
+        task_target.push_back("stop");
+        task_target.push_back("system monitor");
+
+    }
+
+    else {
+        cout << "[SIR]: Command Parsing Module Failed to Recognize the your Command\n";
+        cout << "[SIR]: Please Try Again\n";
+        return;
+    }
+
 }
 
 
