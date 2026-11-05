@@ -14,6 +14,7 @@
 #include "browser_automation/google_search.h"
 #include "system_health_monitor/monitor_manager.h"
 
+//liberal sessions
 
 //namespaces used: 
 using namespace std;
@@ -52,9 +53,16 @@ int main(){
         //call to command parser
         cmd_parser(user_command, task_target, filtered_command);
 
+        //Incase of unrecognize command the cmd_parser show error message
+        // and returns without filling anything in task_target vector
+        //so we need to check if task_target is empty then stop further execution;
+
+        if (task_target.empty()) {
+            cout << "[SIR]: Invalid Command Structure\n";
+        }
 
         //1. Youtube automation- Call to Youtube_Command_Executer(string filtered_command, vector<string> task_target);
-        if(task_target[0] == "play" && task_target[1] == "youtube"){
+        else if(task_target[0] == "play" && task_target[1] == "youtube"){
             Youtube_Command_Executer(filtered_command);
         }
 

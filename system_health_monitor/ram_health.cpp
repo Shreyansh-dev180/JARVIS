@@ -10,7 +10,7 @@ string ram_monitor_module() {
 	mem.dwLength = sizeof(mem);
 
 	if (GlobalMemoryStatusEx(&mem)) {
-		if (mem.dwMemoryLoad >= 90) {
+		if (mem.dwMemoryLoad >= 50) {
 			return "warning";
 		}
 		else {
