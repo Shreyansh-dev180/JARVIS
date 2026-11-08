@@ -5,7 +5,12 @@
 
 using namespace std;
 
+
 string cpu_monitor_module() {
+
+	string result = "";
+
+
 	PDH_HQUERY query;
 	PDH_HCOUNTER counter;
 
@@ -38,15 +43,18 @@ string cpu_monitor_module() {
 		&value
 	);
 
+	
+
 	if (value.doubleValue >= 90) {
-		return "warning";
-	}
-	else if (value.doubleValue <= 90) {
-		return "safe";
+		result = "warning";
 	}
 	else {
-		cout << "[SIR]: Warning! Cpu_Monitoring Module Failed\n";
-		return "failure";
+		result = "safe";
 	}
+
+	PdhCloseQuery(query);
+
+	return result;
+	
 
 }
