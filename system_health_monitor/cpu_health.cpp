@@ -9,39 +9,64 @@ using namespace std;
 string cpu_monitor_module() {
 
 	string result = "";
+	
+	PDH_STATUS status;
 
-
-	PDH_HQUERY query;
-	PDH_HCOUNTER counter;
+	PDH_HQUERY query = nullptr;
+	PDH_HCOUNTER counter = nullptr;
 
 	//opening query;
-	PdhOpenQueryW(NULL, 0, &query);
+	status = PdhOpenQueryW(NULL, 0, &query);
+
+	if (status != ERROR_SUCCESS) {
+		return "error";
+	}
 
 	//adding counter to query
-	PdhAddEnglishCounterW(
+	status = PdhAddEnglishCounterW(
 		query,
 		L"\\Processor(_Total)\\% Processor Time",
 		0,
 		&counter
 	);
 
+	if (status != ERROR_SUCCESS) {
+		PdhCloseQuery(query);
+		return "error";
+	}
+
 	//collecting data
-	PdhCollectQueryData(query);
+	status = PdhCollectQueryData(query);
+
+	if (status != ERROR_SUCCESS) {
+		PdhCloseQuery(query);
+		return "error";
+	}
 
 	Sleep(1000);
 
-	PdhCollectQueryData(query);
+	status = PdhCollectQueryData(query);
+
+	if (status != ERROR_SUCCESS) {
+		PdhCloseQuery(query);
+		return "error";
+	}
 
 	//get counter's result in formatted form as double
 
 	PDH_FMT_COUNTERVALUE value;
 
-	PdhGetFormattedCounterValue(
+	status = PdhGetFormattedCounterValue(
 		counter,
 		PDH_FMT_DOUBLE,
 		NULL,
 		&value
 	);
+
+	if (status != ERROR_SUCCESS) {
+		PdhCloseQuery(query);
+		return "error";
+	}
 
 	
 
