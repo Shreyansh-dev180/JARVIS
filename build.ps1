@@ -13,15 +13,44 @@ $sources = @(
     "system_health_monitor/cpu_health.cpp"
 )
 
-$dependencies = @(
-    "-lpdh"
+$includePaths = @(
+    "-Iexternal_libraries/libsodium-win64/include"
 )
 
-g++ -o jarvis $sources $dependencies
+$libraryPaths = @(
+    "-Lexternal_libraries/libsodium-win64/lib"
+)
 
-if($LASTEXITCODE -eq 0){
+$dependencies = @(
+    "-lpdh",
+    "-lsodium"
+)
+
+g++ -o jarvis $sources $includePaths $libraryPaths $dependencies
+
+#just after compilation capture the result for comparison
+$compilationStatus = $LASTEXITCODE
+
+if($compilationStatus -eq 0){
     Write-Output "Jarvis Compiled Successfully";
 }
 else{
     Write-Output "Jarvis Compilation Failed";
+}
+
+
+#copying dll files in jarvis.exe directory as jarvis will require it 
+#because jarvis is compiled using sodium so its dll is needed.
+
+$dllSource = "external_libraries/libsodium-win64/bin/libsodium-26.dll"
+$dllDestination = "libsodium-26.dll"
+
+if(!(Test-Path $dllDestination)){
+
+    Copy-Item $dllSource "." -Force
+    Write-Output "libsodium-26.dll has been copied to root dir."
+}
+
+else{
+    Write-Output "libsodium-26.dll already exists."
 }
