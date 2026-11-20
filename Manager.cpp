@@ -13,6 +13,7 @@
 #include "browser_automation/youtube_agent.h"
 #include "browser_automation/google_search.h"
 #include "system_health_monitor/monitor_manager.h"
+#include "authentication_module/authentication_manager.h"
 
 //liberal sessions
 
@@ -25,7 +26,36 @@ void user_input(string &user_command){
     getline(cin, user_command);
 }
 
+//function to call authentication manager
+string Authentication() {
+    string user_verification_result = Authenticate_The_User();
+
+    if (user_verification_result == "error") {
+      
+        return "stop";
+
+    }
+    else if (user_verification_result == "failure") {
+        return "stop";
+
+    }
+    else if (user_verification_result == "success") {
+        cout << "[SIR]: User Verified Successfully!\n";
+        return "continue";
+    }
+    else {
+        return "undefined behaviour";
+    }
+}
+
 int main(){
+    string final_authentication_result = Authentication();
+    if (final_authentication_result != "continue") {
+        cout << "[SIR]: User Not Verified!\n";
+        cout << "[SIR]: Signing Off\n";
+        return 1;
+    }
+
     //create a thread obj whose lifetime is till main's lifetime
     jthread system_health_monitor_thread;
 

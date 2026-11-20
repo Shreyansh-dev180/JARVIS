@@ -11,6 +11,10 @@ $sources = @(
     "system_health_monitor/ram_health.cpp",
     "system_health_monitor/monitor_manager.cpp",
     "system_health_monitor/cpu_health.cpp"
+    "authentication_module/authentication_manager.cpp"
+    "authentication_module/login_module.cpp"
+    "authentication_module/new_account_creation.cpp"
+
 )
 
 $includePaths = @(
